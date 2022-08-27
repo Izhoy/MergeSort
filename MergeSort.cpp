@@ -4,31 +4,31 @@
 using namespace std;
 
 template <typename T>
-ostream& operator<<(ostream&, vector<T>); // Перегрузка выходного потока
+ostream& operator<<(ostream&, vector<T>); // Overload of the output stream
 
-vector<int> fillRandom(vector<int>, int, int, int); // Заполнение вектора случайными числами
+vector<int> fillRandom(vector<int>, int, int, int); // Filling a vector with random numbers
 vector<double> fillRandom(vector<double>, int, int, int);
 
 template <typename T>
-vector<T> MergeSort(vector<T>); // Сортировка слиянием
+vector<T> MergeSort(vector<T>); // Merge sorting
 
 template <typename T>
-vector<T> Merge(vector<T>, vector<T>); // Слияние двух векторов
+vector<T> Merge(vector<T>, vector<T>); // merging of two vectors
 
 int main() {
-	constexpr int MIN = 0; // MIN и MAX - диапазон случайных чисел
+	constexpr int MIN = 0; // MIN Рё MAX - РґРёР°РїР°Р·РѕРЅ СЃР»СѓС‡Р°Р№РЅС‹С… С‡РёСЃРµР»
 	constexpr int MAX = 10;
-	constexpr int AMOUNT = 16; // Количество случайных чисел
+	constexpr int AMOUNT = 16; // Amount of random numbers
 
-	vector<int> Numbers = fillRandom(Numbers, AMOUNT, MIN, MAX); // Заполняем вектор случайными числами
+	vector<int> Numbers = fillRandom(Numbers, AMOUNT, MIN, MAX); // Filling the vector with random numbers
 	cout << Numbers << endl;
 
-	cout << MergeSort(Numbers) << endl; // Осуществляем сортировку от меньшего к большему
+	cout << MergeSort(Numbers) << endl; // Performing merge sorting from smaller to larger
 
 	return EXIT_SUCCESS;
 }
 
-// Перегрузка выходного потока
+// Overload of the output stream
 template<typename T>
 ostream& operator<<(ostream& out, vector<T> numbers)
 {
@@ -39,40 +39,40 @@ ostream& operator<<(ostream& out, vector<T> numbers)
 	return out;
 }
 
-// Сортировка слиянием
+// Merge sorting
 template<typename T>
 vector<T> MergeSort(vector<T> Numbers){
-	if (Numbers.size() < 2) return Numbers; // Два базовых случая
+	if (Numbers.size() < 2) return Numbers; // Base cases
 	else if (Numbers.size() == 2) {
 		if (Numbers.at(0) > Numbers.at(1)) swap(Numbers.at(0), Numbers.at(1));
 		return Numbers;
 	}
-	else { // Рекурсивный случай
+	else { // Recursion case
 		vector<T> A, B;
-		for (size_t i = 0; i < Numbers.size()/2; ++i) { // Разбиваем набор чисел на 2 половины
+		for (size_t i = 0; i < Numbers.size()/2; ++i) { // The set of numbers is dividing into 2 halves
 			A.push_back(Numbers.at(i));
 			B.push_back(Numbers.at(i + Numbers.size() / 2));
 		}
-		// В случае если количество чисел нечётно 
-		// добавляем во вторую половину последний элемент из исходного вектора
+		// If the number of numbers is odd
+		// we add the last element from the original vector to the second half
 		if (Numbers.size() % 2 != 0) B.push_back(Numbers.back()); 
-		// Рекурсивная сортировка
+		// Recursion sorting
 		A = MergeSort(A);
 		B = MergeSort(B);
-		// Объединение двух векторов
+		// Merging of 2 vectors
 		Numbers = Merge(A, B);
 	}
 	return Numbers;
 }
 
-// Слияние двух векторов
+// Merging of 2 vectors
 template<typename T>
 vector<T> Merge(vector<T> A, vector<T> B){
 	vector<T> C;
-	/*Проходим два отсортированных вектора по порядку
-	и заполняем выходной вектор в отсортированном виде
-	В случае, когда натыкаемся на конец одного из векторов,
-	выходной вектор заполняем оставшимся вектором*/
+	/*We pass two sorted vectors in order
+	and fill in the output vector in sorted form
+	In the case when we come across the end of one of the vectors,
+	we fill the output vector with the remaining vector*/
 	size_t i = 0, j = 0;
 	for (size_t k = 0; k < A.size() + B.size(); ++k) {
 		if (i > A.size() - 1) {
@@ -98,7 +98,7 @@ vector<T> Merge(vector<T> A, vector<T> B){
 	return C;
 }
 
-// Функция заполнения вектора целочисленными случайными числами
+// The function of filling the vector with integer random numbers
 vector<int> fillRandom(vector<int> Numbers, int amount, int min, int max){
 	random_device rd;
 	mt19937 gen(rd());
@@ -111,7 +111,7 @@ vector<int> fillRandom(vector<int> Numbers, int amount, int min, int max){
 	return Numbers;
 }
 
-// Функция заполнения вектора действительными случайными числами
+// The function of filling the vector with real random numbers
 vector<double> fillRandom(vector<double> Numbers, int amount, int min, int max){
 	random_device rd;
 	mt19937 gen(rd());
